@@ -1,4 +1,4 @@
-# Khaos Web UI - Development Justfile
+# Khaos UI - Development Justfile
 # Tauri v2 + Nuxt 3 + pnpm workspace
 
 # ============================================================================
@@ -7,7 +7,7 @@
 
 # Start Tauri dev mode (frontend + backend)
 dev:
-  pnpm tauri dev
+  cd src-tauri && cargo tauri dev
 
 # Start only frontend dev servers (all windows via Turborepo)
 dev-frontend:
@@ -45,7 +45,7 @@ build-rust-release:
 
 # Build complete Tauri application
 build:
-  pnpm tauri build
+  cd src-tauri && cargo tauri build --bundles app
 
 # ============================================================================
 # Test Commands

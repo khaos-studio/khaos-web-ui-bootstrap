@@ -1,4 +1,4 @@
-# khaos-web-ui Bootstrap
+# Khaos UI Bootstrap
 
 Tauri + Vue 3 + Nuxt multi-window architecture.
 
@@ -19,4 +19,3 @@ Tauri + Vue 3 + Nuxt multi-window architecture.
 ## Status
 
 Bootstrapping Phase 2 prototype.
-

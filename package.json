@@ -1,6 +1,6 @@
 {
   "name": "khaos-web-ui",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.4.1",
@@ -11,8 +11,10 @@
   "scripts": {
     "dev": "for d in windows/projects windows/settings windows/dashboard; do if [ -e \"$d/.nuxt\" ] && [ ! -d \"$d/.nuxt\" ]; then rm -rf \"$d/.nuxt\"; fi; mkdir -p \"$d/.nuxt/dev\"; done && turbo run dev",
     "build": "turbo run build",
+    "icon:generate": "cd src-tauri && cargo tauri icon ../KhaosIcon/KhaosIcon-iOS-Default-1024x1024@1x.png -o icons",
     "build:tauri-assets": "rm -rf dist && mkdir -p dist/settings dist/dashboard && cp -R windows/projects/.output/public/. dist/ && cp -R windows/settings/.output/public/. dist/settings/ && cp -R windows/dashboard/.output/public/. dist/dashboard/",
-    "build:tauri": "pnpm --filter @khaos/projects-window run generate && pnpm --filter @khaos/settings-window run generate && pnpm --filter @khaos/dashboard-window run generate && npm run build:tauri-assets",
+    "build:tauri": "pnpm --filter @khaos/projects-window run generate && pnpm --filter @khaos/settings-window run generate && pnpm --filter @khaos/dashboard-window run generate && pnpm run build:tauri-assets",
+    "build:prod": "cd src-tauri && cargo tauri build --bundles app",
     "test": "turbo run test",
     "lint": "turbo run lint",
     "format": "turbo run format"
