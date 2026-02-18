@@ -1,0 +1,48 @@
+{
+  "productName": "Khaos Web UI",
+  "version": "0.1.0",
+  "identifier": "com.khaos.webui",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://localhost:5173",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "projects",
+        "title": "Khaos Projects",
+        "url": "index.html",
+        "width": 1200,
+        "height": 800,
+        "minWidth": 800,
+        "minHeight": 600
+      },
+      {
+        "label": "settings",
+        "title": "Khaos Settings",
+        "url": "index.html",
+        "width": 600,
+        "height": 700,
+        "visible": false
+      },
+      {
+        "label": "dashboard",
+        "title": "Khaos Dashboard",
+        "url": "index.html",
+        "width": 1400,
+        "height": 900,
+        "minWidth": 1000,
+        "minHeight": 700,
+        "visible": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": false
+  }
+}
