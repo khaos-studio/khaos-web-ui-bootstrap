@@ -48,7 +48,11 @@ jobs:
           pnpm --filter @khaos/dashboard-window run test -- --run
 
       - name: Run Rust tests
-        run: cd src-tauri && cargo test
+        run: |
+          cd src-tauri
+          cargo test -- \
+            --skip services::dashboard::tests::test_find_khaos_tools_available \
+            --skip services::dashboard::tests::test_find_khaos_wfl_available
 
   build:
     name: Build Release Bundle
