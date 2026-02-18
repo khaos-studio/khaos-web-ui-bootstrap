@@ -1,9 +1,10 @@
 export default defineNuxtConfig({
-  extends: '@nuxt/ui',
-  modules: ['@pinia/nuxt'],
+  modules: ["@nuxt/ui", "@pinia/nuxt"],
   ssr: false,
-  css: ['~/styles/index.css'],
+  css: ["@khaos/shared/styles"],
   devServer: {
-    port: process.env.DEV_PORT_PROJECTS ? parseInt(process.env.DEV_PORT_PROJECTS) : 5173,
+    port: process.env.DEV_PORT_PROJECTS
+      ? parseInt(process.env.DEV_PORT_PROJECTS)
+      : 5173,
   },
-})
+});

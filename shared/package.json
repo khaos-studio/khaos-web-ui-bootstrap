@@ -8,7 +8,8 @@
     "./composables": "./composables/index.ts",
     "./stores": "./stores/index.ts",
     "./components": "./components/index.ts",
-    "./types": "./types/index.ts"
+    "./types": "./types/index.ts",
+    "./styles": "./styles/index.css"
   },
   "dependencies": {
     "vue": "^3.4.0",
