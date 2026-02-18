@@ -35,10 +35,10 @@ jobs:
 
       - name: Run frontend lint
         run: |
-          pnpm --dir windows/projects dlx eslint .
-          pnpm --dir windows/settings dlx eslint .
-          pnpm --dir windows/dashboard dlx eslint .
-          pnpm --dir shared dlx eslint .
+          pnpm dlx eslint@9.22.0 --config windows/projects/eslint.config.js windows/projects
+          pnpm dlx eslint@9.22.0 --config windows/settings/eslint.config.js windows/settings
+          pnpm dlx eslint@9.22.0 --config windows/dashboard/eslint.config.js windows/dashboard
+          pnpm dlx eslint@9.22.0 --config shared/eslint.config.js shared
 
       - name: Run frontend tests
         run: pnpm run test
