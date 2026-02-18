@@ -6,3 +6,4 @@ pub mod settings;
 pub mod dashboard;
 pub mod import;
 pub mod system;
+pub mod windows;

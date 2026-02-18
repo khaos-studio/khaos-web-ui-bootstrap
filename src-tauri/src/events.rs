@@ -52,8 +52,8 @@ pub struct ParserCompletedEvent {
 /// Payload emitted when settings change
 #[derive(Debug, Clone, Serialize)]
 pub struct SettingsChangedEvent {
-    pub theme: String,
-    pub active_project_id: Option<String>,
+    pub provider: String,
+    pub model: Option<String>,
 }
 
 /// Payload emitted when a project is selected

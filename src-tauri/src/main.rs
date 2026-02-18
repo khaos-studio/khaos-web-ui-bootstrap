@@ -41,6 +41,9 @@ fn main() {
             commands::import::start_parse,
             commands::import::get_parse_progress,
             commands::import::cancel_parse,
+            // Window commands
+            commands::windows::open_settings_window,
+            commands::windows::open_dashboard_window,
             // System commands
             commands::system::get_system_info,
             commands::system::log_message,

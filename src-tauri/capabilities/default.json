@@ -4,6 +4,9 @@
   "windows": ["*"],
   "permissions": [
     "core:default",
+    "core:window:allow-show",
+    "core:window:allow-hide",
+    "core:window:allow-set-focus",
     "shell:default",
     "dialog:default"
   ]

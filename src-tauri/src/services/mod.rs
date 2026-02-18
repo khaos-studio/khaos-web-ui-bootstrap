@@ -6,3 +6,4 @@ pub mod keychain;
 pub mod discovery;
 pub mod export;
 pub mod import;
+pub mod settings;
