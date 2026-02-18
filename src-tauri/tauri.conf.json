@@ -1,6 +1,6 @@
 {
   "productName": "Khaos UI",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "identifier": "com.khaos.webui",
   "build": {
     "beforeDevCommand": "pnpm run dev",
