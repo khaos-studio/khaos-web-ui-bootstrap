@@ -38,43 +38,11 @@ fn main() {
             commands::system::get_system_info,
             commands::system::log_message,
         ])
-        .setup(|app| {
-            // Create main windows on startup
-            create_windows(app)?;
-            Ok(())
-        })
         .build(tauri::generate_context!())
         .expect("error while running tauri application")
         .run(|_app_handle, event| {
             if let tauri::RunEvent::ExitRequested { .. } = event {
-                // Cleanup
+                // Cleanup on app exit
             }
         });
-}
-
-/// Initialize three windows: Projects, Settings, and Dashboard
-fn create_windows(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
-    // Projects window
-    tauri::WebviewWindowBuilder::new(app, "projects", tauri::WebviewUrl::App("/".into()))
-        .title("Khaos Projects")
-        .inner_size(1200.0, 800.0)
-        .min_inner_size(800.0, 600.0)
-        .build()?;
-
-    // Settings window (hidden by default, shown on demand)
-    tauri::WebviewWindowBuilder::new(app, "settings", tauri::WebviewUrl::App("/".into()))
-        .title("Khaos Settings")
-        .inner_size(600.0, 700.0)
-        .visible(false)
-        .build()?;
-
-    // Dashboard window (hidden by default, shown on demand)
-    tauri::WebviewWindowBuilder::new(app, "dashboard", tauri::WebviewUrl::App("/".into()))
-        .title("Khaos Dashboard")
-        .inner_size(1400.0, 900.0)
-        .min_inner_size(1000.0, 700.0)
-        .visible(false)
-        .build()?;
-
-    Ok(())
 }
