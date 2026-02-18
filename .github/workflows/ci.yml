@@ -35,10 +35,10 @@ jobs:
 
       - name: Run frontend lint
         run: |
-          pnpm --filter @khaos/projects-window dlx eslint .
-          pnpm --filter @khaos/settings-window dlx eslint .
-          pnpm --filter @khaos/dashboard-window dlx eslint .
-          pnpm --filter @khaos/shared dlx eslint .
+          pnpm --dir windows/projects dlx eslint .
+          pnpm --dir windows/settings dlx eslint .
+          pnpm --dir windows/dashboard dlx eslint .
+          pnpm --dir shared dlx eslint .
 
       - name: Run frontend tests
         run: pnpm run test
