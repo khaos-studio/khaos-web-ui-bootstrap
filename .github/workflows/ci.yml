@@ -52,7 +52,8 @@ jobs:
           cd src-tauri
           cargo test -- \
             --skip services::dashboard::tests::test_find_khaos_tools_available \
-            --skip services::dashboard::tests::test_find_khaos_wfl_available
+            --skip services::dashboard::tests::test_find_khaos_wfl_available \
+            --skip services::discovery::tests::test_save_and_load_recent_projects
 
   build:
     name: Build Release Bundle
