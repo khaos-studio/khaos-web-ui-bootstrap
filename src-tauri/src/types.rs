@@ -180,3 +180,205 @@ pub struct SettingsLoadResult {
     pub config: SettingsConfig,
     pub providers: Vec<ProviderInfo>,
 }
+
+// Dashboard types
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct ProjectSummary {
+    pub scenes: usize,
+    pub characters: usize,
+    pub locations: usize,
+    pub compositions: usize,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct SceneSummary {
+    pub id: String,
+    pub index: usize,
+    pub slugline: String,
+    pub duration: String,
+    pub word_count: usize,
+    pub line_count: usize,
+    pub characters: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct CharacterSummary {
+    pub id: String,
+    pub name: String,
+    pub dialogue_lines: usize,
+    pub words: usize,
+    pub scene_count: usize,
+    pub percentage: f64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct LocationSummary {
+    pub id: String,
+    pub name: String,
+    pub scene_count: usize,
+    pub page_count: usize,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct GraphSummary {
+    pub total_entities: usize,
+    pub total_relationships: usize,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct SceneAnalysis {
+    pub title: Option<String>,
+    pub scene_number: Option<String>,
+    pub summary: Option<String>,
+    pub narrative_role: Option<String>,
+    pub emotional_tone: Option<String>,
+    pub stakes: Option<String>,
+    pub themes: Vec<String>,
+    pub theme_details: Option<String>,
+    pub plot_beats: Vec<String>,
+    pub heading: Option<String>,
+    pub pacing: Option<String>,
+    pub estimated_runtime: Option<String>,
+    pub length_pages: Option<String>,
+    pub scene_type: Option<String>,
+    pub time_of_day: Option<String>,
+    pub genre_tone: Option<String>,
+    pub style_notes: Option<String>,
+    pub speaking_chars: Vec<String>,
+    pub non_speaking_chars: Vec<String>,
+    pub non_speaking_details: Vec<String>,
+    pub callbacks: Vec<String>,
+    pub continues_from: Vec<String>,
+    pub sets_up: Vec<String>,
+    pub strengths: Vec<String>,
+    pub development_areas: Vec<String>,
+    pub visual_symbols: Vec<String>,
+    pub location_significance: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct CharacterAnalysis {
+    pub summary: Option<String>,
+    pub arc: Option<String>,
+    pub emotional_journey: Option<String>,
+    pub end_state: Option<String>,
+    pub arc_quality: Option<String>,
+    pub key_turning_points: Vec<String>,
+    pub traits: Vec<String>,
+    pub goals: Vec<String>,
+    pub conflicts: Vec<String>,
+    pub background: Option<String>,
+    pub stakes: Option<String>,
+    pub contradictions: Option<String>,
+    pub vulnerabilities: Vec<String>,
+    pub relationships: Vec<String>,
+    pub dialogue_voice: Option<String>,
+    pub dialogue_function: Option<String>,
+    pub dialogue_patterns: Vec<String>,
+    pub dialogue_subtext: Option<String>,
+    pub themes: Vec<String>,
+    pub thematic_role: Option<String>,
+    pub symbolic_elements: Vec<String>,
+    pub narrative_role: Option<String>,
+    pub narrative_importance: Option<String>,
+    pub narrative_plot_function: Option<String>,
+    pub genre_fit: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct LocationAnalysis {
+    pub summary: Option<String>,
+    pub atmosphere: Option<String>,
+    pub environment: Option<String>,
+    pub visual_context: Option<String>,
+    pub significance: Option<String>,
+    pub traits: Vec<String>,
+    pub changes: Vec<String>,
+    pub narrative_role: Option<String>,
+    pub story_role: Option<String>,
+    pub plot_anchors: Vec<String>,
+    pub symbols: Vec<String>,
+    pub themes: Vec<String>,
+    pub thematic_role: Option<String>,
+    pub location_type: Option<String>,
+    pub region: Option<String>,
+    pub classification: Option<String>,
+    pub character_connections: Vec<String>,
+    pub production_notes: Option<String>,
+    pub structural_observations: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(crate = "serde")]
+#[serde(rename_all = "lowercase")]
+pub enum AnalysisState {
+    Pending,
+    Analyzing,
+    Analyzed,
+    Failed,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct ItemWithState<T: Clone> {
+    pub item: T,
+    pub state: AnalysisState,
+    pub error: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct AnalysisResult {
+    pub success: bool,
+    pub item_type: String,
+    pub item_id: String,
+    pub error: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct AnalysisIndex {
+    pub scenes: Vec<String>,
+    pub characters: Vec<String>,
+    pub locations: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct SceneDetail {
+    pub summary: SceneSummary,
+    pub analysis: Option<SceneAnalysis>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct CharacterDetail {
+    pub summary: CharacterSummary,
+    pub analysis: Option<CharacterAnalysis>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct LocationDetail {
+    pub summary: LocationSummary,
+    pub analysis: Option<LocationAnalysis>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(crate = "serde")]
+pub struct DaemonStatus {
+    pub running: bool,
+    pub project_path: Option<String>,
+    pub watching: bool,
+    pub busy: bool,
+    pub queue_depth: usize,
+}

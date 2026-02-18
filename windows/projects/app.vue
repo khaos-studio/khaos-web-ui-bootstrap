@@ -171,10 +171,17 @@ onUnmounted(() => {
 })
 
 /**
- * Handle project selection from child components
+ * Handle project selection — opens Dashboard window with the project
  */
-const handleProjectSelected = (project: Project): void => {
-  console.log('Project selected:', project.title)
+const handleProjectSelected = async (project: Project): Promise<void> => {
+  try {
+    await invoke('open_dashboard_window', {
+      projectTitle: project.title,
+      projectPath: project.path,
+    })
+  } catch (err) {
+    console.error('Failed to open dashboard:', err)
+  }
 }
 
 /**

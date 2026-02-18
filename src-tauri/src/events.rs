@@ -7,6 +7,7 @@ use serde::Serialize;
 pub mod app_events {
     pub const DAEMON_ANALYSIS_PROGRESS: &str = "daemon:analysis-progress";
     pub const DAEMON_ANALYSIS_COMPLETED: &str = "daemon:analysis-completed";
+    pub const DAEMON_ANALYSIS_STARTED: &str = "daemon:analysis-started";
     pub const DAEMON_PARSER_PROGRESS: &str = "daemon:parser-progress";
     pub const DAEMON_PARSER_COMPLETED: &str = "daemon:parser-completed";
     pub const DAEMON_STATUS: &str = "daemon:status";
@@ -17,16 +18,27 @@ pub mod app_events {
 /// Payload emitted when analysis progresses
 #[derive(Debug, Clone, Serialize)]
 pub struct AnalysisProgressEvent {
-    pub request_id: String,
+    pub item_type: String,
+    pub item_id: String,
     pub progress: f32,
-    pub current: usize,
+    pub status: String,
+    pub completed: usize,
     pub total: usize,
+}
+
+/// Payload emitted when analysis starts
+#[derive(Debug, Clone, Serialize)]
+pub struct AnalysisStartedEvent {
+    pub item_type: String,
+    pub item_id: String,
+    pub operation: String,
 }
 
 /// Payload emitted when analysis completes
 #[derive(Debug, Clone, Serialize)]
 pub struct AnalysisCompletedEvent {
-    pub request_id: String,
+    pub item_type: String,
+    pub item_id: String,
     pub success: bool,
     pub error: Option<String>,
 }
@@ -59,6 +71,6 @@ pub struct SettingsChangedEvent {
 /// Payload emitted when a project is selected
 #[derive(Debug, Clone, Serialize)]
 pub struct ProjectSelectedEvent {
-    pub project_id: String,
     pub project_title: String,
+    pub project_path: String,
 }
