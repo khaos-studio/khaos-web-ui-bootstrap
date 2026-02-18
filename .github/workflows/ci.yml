@@ -79,11 +79,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install Tauri CLI
-        run: cargo install tauri-cli --version "^2.0" --locked
-
       - name: Build production app bundle
-        run: pnpm run build:prod
+        run: cd src-tauri && pnpm dlx @tauri-apps/cli@2 build --bundles app
 
       - name: Prepare release files
         run: |
