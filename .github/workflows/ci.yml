@@ -34,7 +34,11 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run frontend lint
-        run: pnpm run lint
+        run: |
+          pnpm --filter @khaos/projects-window dlx eslint .
+          pnpm --filter @khaos/settings-window dlx eslint .
+          pnpm --filter @khaos/dashboard-window dlx eslint .
+          pnpm --filter @khaos/shared dlx eslint .
 
       - name: Run frontend tests
         run: pnpm run test
