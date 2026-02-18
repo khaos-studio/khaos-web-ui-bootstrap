@@ -20,6 +20,8 @@ fn main() {
             commands::projects::discover_projects,
             commands::projects::search_projects,
             commands::projects::get_project,
+            commands::projects::set_active_project,
+            commands::projects::delete_project,
             // Settings commands
             commands::settings::load_settings,
             commands::settings::save_settings,

@@ -36,6 +36,7 @@
           :key="project.path"
           :project="project"
           @selected="handleProjectSelected"
+          @delete="handleDelete"
         />
       </div>
     </div>
@@ -50,9 +51,10 @@ import ProjectCard from './ProjectCard.vue'
 // Store
 const store = useProjectsStore()
 
-// Emit event when project is selected
+// Emit events
 const emit = defineEmits<{
   selected: [project: Project]
+  delete: [project: Project]
 }>()
 
 /**
@@ -60,5 +62,12 @@ const emit = defineEmits<{
  */
 const handleProjectSelected = (project: Project): void => {
   emit('selected', project)
+}
+
+/**
+ * Handle project deletion from child ProjectCard component
+ */
+const handleDelete = (project: Project): void => {
+  emit('delete', project)
 }
 </script>

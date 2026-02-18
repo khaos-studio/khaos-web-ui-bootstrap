@@ -1,13 +1,19 @@
 <template>
   <div class="h-screen flex flex-col bg-slate-950 text-slate-100">
     <!-- Header Section -->
-    <header class="border-b border-slate-800 bg-slate-900 px-4 py-4">
-      <div class="flex flex-col gap-1">
+    <header class="border-b border-slate-800 bg-slate-900 px-4 py-4 flex items-center justify-between">
+      <div>
         <h1 class="text-lg font-semibold">Projects</h1>
         <p class="text-sm text-slate-400">
-          {{ isSearching ? `${store.filteredProjects.length} results` : `${store.projects.length} projects discovered` }}
+          {{ isSearching ? `${store.filteredProjects.length} results` : `${store.projects.length} projects` }}
         </p>
       </div>
+      <button
+        @click="handleCreate"
+        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors text-sm font-medium"
+      >
+        + Create
+      </button>
     </header>
 
     <!-- Error Banner Section -->
@@ -44,6 +50,41 @@
       </div>
     </div>
 
+    <!-- Delete Confirmation Dialog -->
+    <div v-if="deleteConfirmation.project" class="absolute inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div class="bg-slate-800 rounded-lg px-6 py-4 max-w-sm w-full mx-4 border border-slate-700">
+        <h2 class="text-lg font-semibold text-slate-100 mb-2">Delete Project?</h2>
+        <p class="text-slate-300 mb-1">
+          <span class="font-medium">{{ deleteConfirmation.project.title }}</span>
+        </p>
+        <p class="text-sm text-slate-400 mb-4">
+          This will permanently remove the project directory and cannot be undone.
+        </p>
+        <div class="flex gap-3 justify-end">
+          <button
+            @click="cancelDelete"
+            class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-100 rounded transition-colors font-medium text-sm"
+          >
+            Cancel
+          </button>
+          <button
+            @click="confirmDelete"
+            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition-colors font-medium text-sm"
+            :disabled="deleteConfirmation.deleting"
+          >
+            <span v-if="deleteConfirmation.deleting" class="flex items-center gap-2">
+              <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+              </svg>
+              Deleting...
+            </span>
+            <span v-else>Delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col overflow-hidden">
       <!-- Search Section -->
@@ -51,34 +92,19 @@
         <ProjectSearch placeholder="Search by title, author, path..." />
       </div>
 
-      <!-- Recent Projects Section -->
-      <div v-if="store.recentProjects.length > 0 && !isSearching" class="px-4 py-3 border-b border-slate-800 flex-shrink-0">
-        <h2 class="text-sm font-semibold text-slate-300 mb-3">Recently Opened</h2>
-        <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-          <ProjectCard
-            v-for="project in store.recentProjects"
-            :key="project.path"
-            :project="project"
-            class="w-64 flex-shrink-0"
-            @selected="handleProjectSelected"
-          />
-        </div>
-      </div>
-
       <!-- Main Projects List Section -->
       <div class="flex-1 overflow-hidden">
-        <ProjectList @selected="handleProjectSelected" />
+        <ProjectList @selected="handleProjectSelected" @delete="handleDelete" />
       </div>
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, reactive } from 'vue'
 import { useProjectsStore } from './stores/projects'
 import type { Project } from '@khaos/shared'
 import ProjectSearch from './components/ProjectSearch.vue'
-import ProjectCard from './components/ProjectCard.vue'
 import ProjectList from './components/ProjectList.vue'
 
 // Store
@@ -86,6 +112,10 @@ const store = useProjectsStore()
 
 // Local state
 const dismissedError = ref<boolean>(false)
+const deleteConfirmation = reactive<{ project: Project | null; deleting: boolean }>({
+  project: null,
+  deleting: false,
+})
 
 // Computed
 const isSearching = computed(() => store.isSearching)
@@ -99,9 +129,49 @@ onMounted(async () => {
  * Handle project selection from child components
  */
 const handleProjectSelected = (project: Project): void => {
-  // Project is already selected in the store via ProjectCard
-  // Additional logic can be added here for navigation or other actions
   console.log('Project selected:', project.title)
+}
+
+/**
+ * Handle create new project
+ * TODO: Implement project creation flow (dialog, file picker, etc.)
+ */
+const handleCreate = (): void => {
+  console.log('Create new project')
+  // Placeholder for create workflow
+}
+
+/**
+ * Show delete confirmation dialog
+ */
+const handleDelete = (project: Project): void => {
+  deleteConfirmation.project = project
+  deleteConfirmation.deleting = false
+}
+
+/**
+ * Cancel deletion
+ */
+const cancelDelete = (): void => {
+  deleteConfirmation.project = null
+  deleteConfirmation.deleting = false
+}
+
+/**
+ * Confirm and execute deletion
+ */
+const confirmDelete = async (): Promise<void> => {
+  if (!deleteConfirmation.project) return
+
+  deleteConfirmation.deleting = true
+  try {
+    await store.deleteProject(deleteConfirmation.project.id)
+    deleteConfirmation.project = null
+    deleteConfirmation.deleting = false
+  } catch (err) {
+    console.error('Failed to delete project:', err)
+    deleteConfirmation.deleting = false
+  }
 }
 </script>
 
