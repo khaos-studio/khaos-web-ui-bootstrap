@@ -4,6 +4,7 @@ node_modules/
 # Nuxt build output
 .nuxt/
 .output/
+dist/
 
 # Turbo
 .turbo/
@@ -23,6 +24,9 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# Local Claude settings
+.claude/settings.local.json
 
 # Logs
 *.log
