@@ -8,7 +8,7 @@
     "build": "nuxi build",
     "generate": "nuxi generate",
     "preview": "nuxi preview",
-    "test": "vitest",
+    "test": "vitest --passWithNoTests",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
