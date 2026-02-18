@@ -4,7 +4,7 @@ Create a new plan in specs/*.md to implement the `Feature` using the exact speci
 
 ## Instructions
 
-- You're writing a plan to implement a net new feature that will add value to the installer packaging system.
+- You're writing a plan to implement a net new feature for the Khaos Web UI desktop application.
 - Create the plan in the `specs/*.md` file. Name it appropriately based on the `Feature`.
 - Use the `Plan Format` below to create the plan.
 - Research the codebase to understand existing patterns, architecture, and conventions before planning the feature.
@@ -18,21 +18,19 @@ Create a new plan in specs/*.md to implement the `Feature` using the exact speci
 ## Relevant Files
 
 Focus on the following files:
-- `README.md` - Project overview and install instructions.
-- `build.sh` - Main macOS build script (downloads, signs, packages binaries).
-- `build-linux.sh` - Linux packaging script (.deb/.rpm via nfpm).
-- `build-package.sh` - Full build+sign+release orchestrator.
-- `sign.sh` - Code signing and notarization.
-- `release.sh` - GitHub release publishing.
-- `common.sh` - Shared build utilities and helpers.
-- `KhaosFoundation.pkgproj` - macOS installer project config.
-- `nfpm.yaml` - Linux package specification.
-- `packaging/macos/` - macOS installer scripts and LaunchAgent plist.
-- `packaging/linux/` - Linux systemd unit and postinstall scripts.
-- `scripts/` - WFL daemon helper scripts.
-- `docs/releases/` - Versioned release notes.
-
-Ignore all other files in the codebase.
+- `README.md` — Project overview.
+- `src-tauri/src/commands/` — Tauri IPC command handlers.
+- `src-tauri/src/services/` — Business logic (discovery, config, import, export).
+- `src-tauri/src/types.rs` — Shared Rust types/DTOs.
+- `src-tauri/src/events.rs` — Cross-window event definitions.
+- `src-tauri/src/lib.rs` — Tauri app setup and command registration.
+- `src-tauri/tauri.conf.json` — Window and app configuration.
+- `src-tauri/capabilities/default.json` — Permission/capability config.
+- `windows/*/app.vue` — Window entry points.
+- `windows/*/stores/` — Pinia state management.
+- `windows/*/components/` — Vue components.
+- `shared/types/index.ts` — Shared TypeScript types.
+- `docs/` — Architecture and IPC documentation.
 
 ## Plan Format
 
@@ -40,7 +38,7 @@ Ignore all other files in the codebase.
 # Feature: <feature name>
 
 ## Feature Description
-<describe the feature in detail, including its purpose and value to the packaging system>
+<describe the feature in detail, including its purpose and value to the application>
 
 ## User Story
 As a <type of user>
@@ -66,7 +64,7 @@ Use these files to implement the feature:
 <describe the main implementation work for the feature>
 
 ### Phase 3: Integration
-<describe how the feature will integrate with existing build/packaging pipeline>
+<describe how the feature will integrate with existing windows and backend>
 
 ## Step by Step Tasks
 IMPORTANT: Execute every step in order, top to bottom.
@@ -74,11 +72,11 @@ IMPORTANT: Execute every step in order, top to bottom.
 <list step by step tasks as h3 headers plus bullet points. use as many h3 headers as needed to implement the feature. Order matters, start with the foundational shared changes required then move on to the specific implementation. Include verification steps throughout. Your last step should be running the `Validation Commands` to validate the feature works correctly with zero regressions.>
 
 ## Testing Strategy
-### Manual Verification
-<describe manual verification steps for the feature>
+### Unit Tests
+<describe unit test approach for Rust services and Vue components/stores>
 
-### Build Pipeline Verification
-<describe how to verify the feature works across the build pipeline>
+### Integration Tests
+<describe integration test approach for Tauri command flow>
 
 ### Edge Cases
 <list edge cases that need to be tested>
@@ -90,9 +88,11 @@ IMPORTANT: Execute every step in order, top to bottom.
 Execute every command to validate the feature works correctly with zero regressions.
 
 <list commands you'll use to validate with 100% confidence the feature is implemented correctly with zero regressions. every command must execute without errors so be specific about what you want to run to validate the feature works as expected.>
-- `shellcheck *.sh` - Lint all shell scripts
-- `./build.sh` - Verify macOS build completes successfully
-- `./build-linux.sh --arch amd64` - Verify Linux build completes successfully
+- `cd src-tauri && cargo check` - Verify Rust compilation
+- `cd src-tauri && cargo test` - Run Rust tests
+- `cd src-tauri && cargo clippy -- -D warnings` - Lint Rust code
+- `pnpm run test` - Run frontend tests
+- `pnpm run build` - Verify frontend builds
 
 ## Notes
 <optionally list any additional notes, future considerations, or context that are relevant to the feature that will be helpful to the developer>

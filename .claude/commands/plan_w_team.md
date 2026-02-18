@@ -262,17 +262,18 @@ Use these files to complete the task:
 <list files relevant to the task with bullet points explaining why. Include new files to be created under an h3 'New Files' section if needed>
 
 Key files:
-- `build.sh` - Main macOS build script
-- `build-linux.sh` - Linux packaging script
-- `build-package.sh` - Full pipeline orchestrator
-- `sign.sh` - Code signing and notarization
-- `release.sh` - GitHub release publishing
-- `common.sh` - Shared build utilities
-- `KhaosFoundation.pkgproj` - macOS installer project config
-- `nfpm.yaml` - Linux package spec
-- `packaging/` - Platform-specific installer assets
-- `scripts/` - WFL daemon helper scripts
-- `docs/releases/` - Versioned release notes
+- `src-tauri/src/commands/` - Tauri IPC command handlers
+- `src-tauri/src/services/` - Business logic (discovery, config, import, export)
+- `src-tauri/src/types.rs` - Shared Rust types/DTOs
+- `src-tauri/src/events.rs` - Cross-window event definitions
+- `src-tauri/src/lib.rs` - Tauri app setup and command registration
+- `src-tauri/tauri.conf.json` - Window and app configuration
+- `src-tauri/capabilities/default.json` - Permission/capability config
+- `windows/*/app.vue` - Window entry points
+- `windows/*/stores/` - Pinia state management
+- `windows/*/components/` - Vue components
+- `shared/types/index.ts` - Shared TypeScript types
+- `docs/` - Architecture and IPC documentation
 
 <if complexity is medium/complex, include this section:>
 ## Implementation Phases
@@ -352,9 +353,11 @@ Key files:
 Execute these commands to validate the task is complete:
 
 <list specific commands to validate the work. Be precise about what to run>
-- `shellcheck *.sh` - Lint all shell scripts
-- `./build.sh` - Verify macOS build completes successfully
-- `./build-linux.sh --arch amd64` - Verify Linux build completes successfully
+- `cd src-tauri && cargo check` - Verify Rust compilation
+- `cd src-tauri && cargo test` - Run Rust tests
+- `cd src-tauri && cargo clippy -- -D warnings` - Lint Rust code
+- `pnpm run test` - Run frontend tests
+- `pnpm run build` - Verify frontend builds
 
 ## Notes
 <optional additional context, considerations, or dependencies>

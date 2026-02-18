@@ -4,21 +4,19 @@ description: Run repository maintenance checks and report health status
 
 # Purpose
 
-Execute repository maintenance tasks: verify build assets, check release state, and report health status.
+Execute repository maintenance tasks: verify builds, check test health, and report overall project status.
 
 ## Workflow
 
 1. Run `Skill(/prime)` to understand the codebase
 2. Check git repository health: `git fsck --no-full`
-3. Verify build artifacts are clean: check `build/` directory state
-4. Check latest GitHub release: `gh release view --json tagName,publishedAt,assets`
-5. Verify upstream releases are current:
-   - `gh release view -R khaos-studio/khaos-tools --json tagName`
-   - `gh release view -R khaos-studio/khaos-tui --json tagName`
-   - `gh release view -R khaos-studio/khaos-wfl --json tagName`
-6. Check release notes coverage: compare `docs/releases/` against published releases
-7. Lint shell scripts: `shellcheck *.sh` (if available)
-8. Report to user
+3. Verify dependencies are in sync: `pnpm install --frozen-lockfile`
+4. Check Rust compilation: `cd src-tauri && cargo check`
+5. Run Rust tests: `cd src-tauri && cargo test`
+6. Run frontend tests: `pnpm run test`
+7. Check for lint issues: `cd src-tauri && cargo clippy -- -D warnings`
+8. Review git status for uncommitted changes
+9. Report to user
 
 ## Report
 
@@ -27,20 +25,19 @@ Execute repository maintenance tasks: verify build assets, check release state, 
 **Health Checks**:
 
 - Git repository: [ok/issues]
-- Build artifacts: [clean/stale]
-- Shell script lint: [pass/issues]
+- Dependencies: [in sync/outdated]
+- Rust compilation: [pass/fail]
+- Rust tests: [pass/fail with count]
+- Frontend tests: [pass/fail with count]
+- Rust lint (clippy): [pass/warnings]
 
-**Release State**:
+**Uncommitted Changes**:
 
-- Current installer version: [version]
-- Latest upstream khaos-tools: [version]
-- Latest upstream khaos-tui: [version]
-- Latest upstream khaos-wfl: [version]
-- Release notes coverage: [complete/missing for versions]
+- [list or "working tree clean"]
 
 **What worked**:
 
-- [completed actions]
+- [completed checks]
 
 **What failed** (if any):
 
@@ -48,4 +45,4 @@ Execute repository maintenance tasks: verify build assets, check release state, 
 
 **Next steps**:
 
-- [what to do now]
+- [recommended actions]

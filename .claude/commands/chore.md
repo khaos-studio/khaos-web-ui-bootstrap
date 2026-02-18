@@ -16,21 +16,18 @@ Create a new plan in specs/*.md to resolve the `Chore` using the exact specified
 ## Relevant Files
 
 Focus on the following files:
-- `README.md` - Project overview and install instructions.
-- `build.sh` - Main macOS build script (downloads, signs, packages binaries).
-- `build-linux.sh` - Linux packaging script (.deb/.rpm via nfpm).
-- `build-package.sh` - Full build+sign+release orchestrator.
-- `sign.sh` - Code signing and notarization.
-- `release.sh` - GitHub release publishing.
-- `common.sh` - Shared build utilities and helpers.
-- `KhaosFoundation.pkgproj` - macOS installer project config.
-- `nfpm.yaml` - Linux package specification.
-- `packaging/macos/` - macOS installer scripts and LaunchAgent plist.
-- `packaging/linux/` - Linux systemd unit and postinstall scripts.
-- `scripts/` - WFL daemon helper scripts.
-- `docs/releases/` - Versioned release notes.
-
-Ignore all other files in the codebase.
+- `README.md` — Project overview.
+- `package.json` — Root config, scripts, devDependencies.
+- `pnpm-workspace.yaml` — Workspace structure.
+- `turbo.json` — Turborepo task config.
+- `justfile` — Development commands.
+- `src-tauri/Cargo.toml` — Rust dependencies.
+- `src-tauri/tauri.conf.json` — Window and app configuration.
+- `src-tauri/capabilities/default.json` — Permission/capability config.
+- `windows/*/package.json` — Per-window dependencies.
+- `windows/*/nuxt.config.ts` — Per-window Nuxt config.
+- `.gitignore` — Git ignore rules.
+- `tsconfig.json` — TypeScript config.
 
 ## Plan Format
 
@@ -54,8 +51,10 @@ IMPORTANT: Execute every step in order, top to bottom.
 Execute every command to validate the chore is complete with zero regressions.
 
 <list commands you'll use to validate with 100% confidence the chore is complete with zero regressions. every command must execute without errors so be specific about what you want to run to validate the chore is complete with zero regressions.>
-- `shellcheck *.sh` - Lint all shell scripts
-- `./build.sh` - Verify macOS build completes successfully
+- `cd src-tauri && cargo check` - Verify Rust compilation
+- `cd src-tauri && cargo test` - Run Rust tests
+- `pnpm run test` - Run frontend tests
+- `pnpm run build` - Verify frontend builds
 
 ## Notes
 <optionally list any additional notes or context that are relevant to the chore that will be helpful to the developer>

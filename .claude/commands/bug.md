@@ -19,21 +19,19 @@ Create a new plan in specs/*.md to resolve the `Bug` using the exact specified m
 ## Relevant Files
 
 Focus on the following files:
-- `README.md` - Project overview and install instructions.
-- `build.sh` - Main macOS build script (downloads, signs, packages binaries).
-- `build-linux.sh` - Linux packaging script (.deb/.rpm via nfpm).
-- `build-package.sh` - Full build+sign+release orchestrator.
-- `sign.sh` - Code signing and notarization.
-- `release.sh` - GitHub release publishing.
-- `common.sh` - Shared build utilities and helpers.
-- `KhaosFoundation.pkgproj` - macOS installer project config.
-- `nfpm.yaml` - Linux package specification.
-- `packaging/macos/` - macOS installer scripts and LaunchAgent plist.
-- `packaging/linux/` - Linux systemd unit and postinstall scripts.
-- `scripts/` - WFL daemon helper scripts.
-- `docs/releases/` - Versioned release notes.
-
-Ignore all other files in the codebase.
+- `README.md` — Project overview.
+- `src-tauri/src/commands/` — Tauri IPC command handlers.
+- `src-tauri/src/services/` — Business logic (discovery, config, import, export).
+- `src-tauri/src/types.rs` — Shared Rust types/DTOs.
+- `src-tauri/src/events.rs` — Cross-window event definitions.
+- `src-tauri/src/lib.rs` — Tauri app setup and command registration.
+- `src-tauri/tauri.conf.json` — Window and app configuration.
+- `src-tauri/capabilities/default.json` — Permission/capability config.
+- `windows/*/app.vue` — Window entry points.
+- `windows/*/stores/` — Pinia state management.
+- `windows/*/components/` — Vue components.
+- `shared/types/index.ts` — Shared TypeScript types.
+- `docs/` — Architecture and IPC documentation.
 
 ## Plan Format
 
@@ -72,9 +70,11 @@ IMPORTANT: Execute every step in order, top to bottom.
 Execute every command to validate the bug is fixed with zero regressions.
 
 <list commands you'll use to validate with 100% confidence the bug is fixed with zero regressions. every command must execute without errors so be specific about what you want to run to validate the bug is fixed with zero regressions. Include commands to reproduce the bug before and after the fix.>
-- `shellcheck *.sh` - Lint all shell scripts
-- `./build.sh` - Verify macOS build completes successfully
-- `./build-linux.sh --arch amd64` - Verify Linux build completes successfully
+- `cd src-tauri && cargo check` - Verify Rust compilation
+- `cd src-tauri && cargo test` - Run Rust tests
+- `cd src-tauri && cargo clippy -- -D warnings` - Lint Rust code
+- `pnpm run test` - Run frontend tests
+- `pnpm run build` - Verify frontend builds
 
 ## Notes
 <optionally list any additional notes or context that are relevant to the bug that will be helpful to the developer>

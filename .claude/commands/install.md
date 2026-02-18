@@ -1,11 +1,11 @@
 ---
-description: Verify packaging environment and build tools are available
+description: Verify development environment and build tools are available
 argument-hint: [hil]
 ---
 
 # Purpose
 
-Verify that the packaging environment has all required tools and dependencies, then report readiness to the user.
+Verify that the development environment has all required tools and dependencies for the Tauri v2 + Nuxt 3 project, then report readiness.
 
 ## Variables
 
@@ -16,16 +16,17 @@ MODE: $1 (optional - if "hil", run interactive mode)
 1. **First**, execute `Skill(/prime)` to understand the codebase
 2. Read `README.md` for requirements
 3. Verify key tools are available:
+   - `node` (Node.js runtime)
+   - `pnpm` (package manager)
+   - `rustc` / `cargo` (Rust toolchain)
+   - `cargo tauri` (Tauri CLI)
    - `gh` (GitHub CLI, authenticated)
-   - `pkgbuild` (macOS package builder)
-   - `productsign` (macOS package signing)
-   - `codesign` (binary signing)
-   - `xcrun notarytool` (notarization)
-   - `xcrun stapler` (stapling)
-   - `nfpm` (Linux .deb/.rpm packaging)
-4. Check for `.env` file with Apple signing credentials
-5. Verify GitHub authentication: `gh auth status`
-6. Report to user
+4. Verify optional tools:
+   - `cargo clippy` (Rust linter)
+   - `cargo fmt` (Rust formatter)
+5. Check dependencies: `pnpm install --frozen-lockfile`
+6. Verify Rust compiles: `cd src-tauri && cargo check`
+7. Report to user
 
 ## Report
 
@@ -33,16 +34,22 @@ MODE: $1 (optional - if "hil", run interactive mode)
 
 **Environment**:
 
-- gh: [version or missing]
-- pkgbuild: [available or missing]
-- productsign: [available or missing]
-- codesign: [available or missing]
-- nfpm: [version or missing]
+- Node.js: [version or missing]
+- pnpm: [version or missing]
+- Rust: [version or missing]
+- Cargo: [version or missing]
+- Tauri CLI: [version or missing]
+- clippy: [available or missing]
+- rustfmt: [available or missing]
 
 **Auth**:
 
 - GitHub CLI: [authenticated or not]
-- Apple signing: [.env present or missing]
+
+**Verification**:
+
+- pnpm install: [success or failed]
+- cargo check: [success or failed]
 
 **What worked**:
 
