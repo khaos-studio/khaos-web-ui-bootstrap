@@ -85,6 +85,9 @@
       </div>
     </div>
 
+    <!-- Import Wizard -->
+    <ImportWizard v-if="importStore.isOpen" />
+
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col overflow-hidden">
       <!-- Search Section -->
@@ -103,12 +106,15 @@
 <script setup lang="ts">
 import { onMounted, ref, computed, reactive } from 'vue'
 import { useProjectsStore } from './stores/projects'
+import { useImportStore } from './stores/import'
 import type { Project } from '@khaos/shared'
 import ProjectSearch from './components/ProjectSearch.vue'
 import ProjectList from './components/ProjectList.vue'
+import ImportWizard from './components/ImportWizard.vue'
 
-// Store
+// Stores
 const store = useProjectsStore()
+const importStore = useImportStore()
 
 // Local state
 const dismissedError = ref<boolean>(false)
@@ -133,12 +139,10 @@ const handleProjectSelected = (project: Project): void => {
 }
 
 /**
- * Handle create new project
- * TODO: Implement project creation flow (dialog, file picker, etc.)
+ * Handle create new project — opens the import wizard
  */
 const handleCreate = (): void => {
-  console.log('Create new project')
-  // Placeholder for create workflow
+  importStore.openWizard()
 }
 
 /**

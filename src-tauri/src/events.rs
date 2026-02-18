@@ -11,6 +11,7 @@ pub mod app_events {
     pub const DAEMON_PARSER_COMPLETED: &str = "daemon:parser-completed";
     pub const DAEMON_STATUS: &str = "daemon:status";
     pub const APP_SETTINGS_CHANGED: &str = "app:settings-changed";
+    pub const APP_PROJECT_SELECTED: &str = "app:project-selected";
 }
 
 /// Payload emitted when analysis progresses
@@ -36,6 +37,7 @@ pub struct ParserProgressEvent {
     pub request_id: String,
     pub phase: String,
     pub progress: f32,
+    pub line: Option<String>,
 }
 
 /// Payload emitted when parser completes
@@ -52,4 +54,11 @@ pub struct ParserCompletedEvent {
 pub struct SettingsChangedEvent {
     pub theme: String,
     pub active_project_id: Option<String>,
+}
+
+/// Payload emitted when a project is selected
+#[derive(Debug, Clone, Serialize)]
+pub struct ProjectSelectedEvent {
+    pub project_id: String,
+    pub project_title: String,
 }

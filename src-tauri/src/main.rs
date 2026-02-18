@@ -15,6 +15,8 @@ fn main() {
     setup_logging();
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![
             // Projects commands
             commands::projects::discover_projects,
@@ -33,6 +35,9 @@ fn main() {
             commands::dashboard::analyze_all,
             commands::dashboard::get_analysis_results,
             // Import commands
+            commands::import::validate_import_file,
+            commands::import::check_import_collision,
+            commands::import::resolve_import_path,
             commands::import::start_parse,
             commands::import::get_parse_progress,
             commands::import::cancel_parse,
