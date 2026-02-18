@@ -102,10 +102,27 @@ export const useDashboardStore = defineStore('dashboard', () => {
       ])
 
       console.log('[Dashboard Store] All data loaded successfully')
-      summary.value = summaryData
       scenes.value = scenesData
       characters.value = charsData
       locations.value = locsData
+      summary.value = {
+        scenes: summaryData?.scenes ?? scenesData.length,
+        characters: summaryData?.characters ?? charsData.length,
+        locations: summaryData?.locations ?? locsData.length,
+        compositions: summaryData?.compositions ?? 0,
+      }
+
+      // If summary endpoint returned placeholder zeros, trust hydrated lists.
+      if (
+        summary.value.scenes === 0 &&
+        summary.value.characters === 0 &&
+        summary.value.locations === 0 &&
+        (scenesData.length > 0 || charsData.length > 0 || locsData.length > 0)
+      ) {
+        summary.value.scenes = scenesData.length
+        summary.value.characters = charsData.length
+        summary.value.locations = locsData.length
+      }
 
       // Build analysis state from index
       const states: Record<string, AnalysisState> = {}

@@ -9,8 +9,10 @@
     "shared/*"
   ],
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "for d in windows/projects windows/settings windows/dashboard; do if [ -e \"$d/.nuxt\" ] && [ ! -d \"$d/.nuxt\" ]; then rm -rf \"$d/.nuxt\"; fi; mkdir -p \"$d/.nuxt/dev\"; done && turbo run dev",
     "build": "turbo run build",
+    "build:tauri-assets": "rm -rf dist && mkdir -p dist/settings dist/dashboard && cp -R windows/projects/.output/public/. dist/ && cp -R windows/settings/.output/public/. dist/settings/ && cp -R windows/dashboard/.output/public/. dist/dashboard/",
+    "build:tauri": "pnpm --filter @khaos/projects-window run generate && pnpm --filter @khaos/settings-window run generate && pnpm --filter @khaos/dashboard-window run generate && npm run build:tauri-assets",
     "test": "turbo run test",
     "lint": "turbo run lint",
     "format": "turbo run format"

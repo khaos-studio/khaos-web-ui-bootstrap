@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "nuxi dev",
+    "dev": "if [ -e .nuxt ] && [ ! -d .nuxt ]; then rm -rf .nuxt; fi; mkdir -p .nuxt/dev && nuxi dev",
     "build": "nuxi build",
+    "generate": "nuxi generate",
     "preview": "nuxi preview",
     "test": "vitest",
     "lint": "eslint .",

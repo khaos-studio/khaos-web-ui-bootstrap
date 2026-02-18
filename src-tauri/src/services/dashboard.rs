@@ -255,19 +255,24 @@ pub async fn query_project_summary(kspd_path: &str) -> Result<ProjectSummary, St
     .await?;
 
     // Statistics output varies; extract counts
+    let stats = data.get("statistics");
+
     let scenes = data
         .get("scene_count")
         .or(data.get("scenes"))
+        .or_else(|| stats.and_then(|s| s.get("scenes")))
         .and_then(|v| v.as_u64())
         .unwrap_or(0) as usize;
     let characters = data
         .get("character_count")
         .or(data.get("characters"))
+        .or_else(|| stats.and_then(|s| s.get("characters")))
         .and_then(|v| v.as_u64())
         .unwrap_or(0) as usize;
     let locations = data
         .get("location_count")
         .or(data.get("locations"))
+        .or_else(|| stats.and_then(|s| s.get("locations")))
         .and_then(|v| v.as_u64())
         .unwrap_or(0) as usize;
     let compositions = data
