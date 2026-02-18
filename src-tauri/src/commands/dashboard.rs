@@ -153,8 +153,8 @@ pub async fn get_analysis_results(
 
 /// Check if khaos-wfl daemon is running for a project
 #[command]
-pub async fn get_daemon_status(project_path: String) -> Result<DaemonStatus, String> {
-    Ok(services::dashboard::check_daemon_status(&project_path).await)
+pub async fn get_daemon_status(app: AppHandle, project_path: String) -> Result<DaemonStatus, String> {
+    Ok(services::dashboard::get_daemon_status_with_bridge(&app, &project_path).await)
 }
 
 /// Start khaos-wfl daemon for a project

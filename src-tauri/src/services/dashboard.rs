@@ -472,6 +472,14 @@ pub async fn check_daemon_status(kspd_path: &str) -> DaemonStatus {
     }
 }
 
+pub async fn get_daemon_status_with_bridge(app: &AppHandle, kspd_path: &str) -> DaemonStatus {
+    let status = check_daemon_status(kspd_path).await;
+    if status.running {
+        ensure_daemon_event_bridge(app, kspd_path).await;
+    }
+    status
+}
+
 /// Analyze a scene — tries daemon first, falls back to CLI
 pub async fn analyze_scene(
     app: &AppHandle,
@@ -588,6 +596,8 @@ async fn analyze_via_daemon(
     operation: &str,
     item_id: &str,
 ) -> Result<AnalysisResult, String> {
+    ensure_daemon_event_bridge(app, kspd_path).await;
+
     let client = crate::wfl_client::DaemonClient::connect()
         .await
         .map_err(|e| format!("Failed to connect to daemon: {}", e))?;
